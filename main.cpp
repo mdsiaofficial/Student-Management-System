@@ -51,11 +51,14 @@ void student::insert()
     cin >> address;
 
     file.open("studentdata.txt", ios::app | ios::out);
-    file<<" "<<name<<" "<<roll <<" "<<course<<" "<<email<< " "<< contact<<" "<<address<<endl;
+    file << " " << name << " " << roll << " " << course << " " << email << " " << contact << " " << address << endl;
     file.close();
 }
 
-void display(){
+void student::display()
+{
+    string name, roll, course, address, email, contact;
+    int total = 1;
     system("cls");
     fstream file;
     cout << "\t\t-------------------------------------\n";
@@ -63,12 +66,35 @@ void display(){
     cout << "\t\t-------------------------------------\n";
 
     file.open("studentdata.txt", ios::in);
-    if(!file){
-        cout<<"\n\t\t No data found!!!\n";
+    if (!file)
+    {
+        cout << "\n\t\t No data found!!!\n";
         file.close();
-    }else{
-        file>>name>>roll>>course>>contact>>email>>
     }
+    else
+    {
+        // file >> name >> roll >> course >> email >> contact >> address;
+        while (!file.eof())
+        {
+            cout << "\n\n\t\t|---     Student Data    ---|\n";
+            cout << "\t\tStudent No: " << total++ << endl;
+            cout << "\t\tStudent Name: " << name << endl;
+            cout << "\t\tStudent Roll: " << roll << endl;
+            cout << "\t\tStudent Course: " << course << endl;
+            cout << "\t\tStudent Email: " << email << endl;
+            cout << "\t\tStudent Contact: " << contact << endl;
+            cout << "\t\tStudent Address: " << address << endl;
+            file >> name >> roll >> course >> email >> contact >> address;
+        }
+
+        if (total == 0)
+        {
+
+            cout << "\n\t\t No data found!!!\n";
+        }
+    }
+
+    file.close();
 }
 
 void student::menu()
@@ -131,7 +157,6 @@ menustart:
     getch();
     goto menustart;
 }
-
 
 int main()
 {
