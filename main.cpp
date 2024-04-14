@@ -25,7 +25,8 @@ public:
     void menu();
     void insert();
     void display();
-    void deleteData();
+    void modify();
+    void search();
 };
 
 void student::insert()
@@ -97,6 +98,125 @@ void student::display()
     file.close();
 }
 
+void student::modify()
+{
+    system("cls");
+    fstream file, file1;
+
+    cout << endl;
+    cout << "\t\t-------------------------------------\n";
+    cout << "\t\t|---     Student Data Modify     ---|\n";
+    cout << "\t\t-------------------------------------\n";
+
+    string roll_select;
+    int found = 0;
+    file.open("studentdata.txt", ios::in);
+
+    if (!file)
+    {
+        cout << "\n\t\t No data found!!!\n";
+        file.close();
+    }
+    else
+    {
+        cout << "\nEnter roll no to select student: ";
+        cin >> roll_select;
+
+        file1.open("data.txt", ios::app | ios::out);
+
+        file >> name >> roll >> course >> email >> contact >> address;
+        while (!file.eof())
+        {
+            if (roll != roll_select)
+            {
+                file1 << " " << name << " " << roll << " " << course << " " << email << " " << contact << " " << address << endl;
+            }
+            else
+            {
+                cout << "\t\tEnter Name: ";
+                cin >> name;
+                cout << "\t\tEnter Roll: ";
+                cin >> roll;
+                cout << "\t\tEnter Course: ";
+                cin >> course;
+                cout << "\t\tEnter Contact: ";
+                cin >> contact;
+                cout << "\t\tEnter Email: ";
+                cin >> email;
+                cout << "\t\tEnter Address: ";
+                cin >> address;
+
+                file1 << " " << name << " " << roll << " " << course << " " << email << " " << contact << " " << address << endl;
+
+                found++;
+            }
+
+            file >> name >> roll >> course >> email >> contact >> address;
+            if (found == 0)
+            {
+                cout << "\t\tStudent Roll not found.\n";
+            }
+        }
+
+        file1.close();
+        file.close();
+        remove("studentdata.txt");
+        rename("data.txt", "studentdata.txt");
+    }
+}
+
+void student::search(){
+    system("cls");
+    fstream file;
+    int found=0;
+    file.open("studentdata.txt", ios::in);
+    if(!file){
+        
+        cout << endl;
+        cout << "\t\t-------------------------------------\n";
+        cout << "\t\t|---     Student Data Search     ---|\n";
+        cout << "\t\t-------------------------------------\n";
+
+        cout<<"\n\n\t\t------     No data found    -----\n";
+
+
+    }else{
+        string roll_select;
+
+            
+        cout << endl;   
+        cout << "\t\t-------------------------------------\n";
+        cout << "\t\t|---     Student Data Modify     ---|\n";
+        cout << "\t\t-------------------------------------\n";
+
+        cout<<"\t\tEnter Student Roll no. to search: ";
+        cin>>roll_select;
+
+        file >> name >> roll >> course >> email >> contact >> address;
+
+        while(!file.eof()){
+            if(roll == roll_select){
+                cout << "\n\n\t\t|---     Student Data    ---|\n";
+                cout << "\t\tStudent Name: " << name << endl;
+                cout << "\t\tStudent Roll: " << roll << endl;
+                cout << "\t\tStudent Course: " << course << endl;
+                cout << "\t\tStudent Email: " << email << endl;
+                cout << "\t\tStudent Contact: " << contact << endl;
+                cout << "\t\tStudent Address: " << address << endl;
+
+                found++;
+            }
+            file >> name >> roll >> course >> email >> contact >> address;
+        }
+
+        if(found == 0){
+            cout<<"\n\t\tNo data found!!!";
+        }
+
+        file.close();
+    }
+}
+
 void student::menu()
 {
 
@@ -137,11 +257,11 @@ menustart:
         break;
 
     case 3:
-        // display();
+        modify();
         break;
 
     case 4:
-        // display();
+        search();
         break;
     case 5:
         // display();
