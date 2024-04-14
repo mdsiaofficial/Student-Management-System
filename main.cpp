@@ -27,6 +27,7 @@ public:
     void display();
     void modify();
     void search();
+    void deleteData();
 };
 
 void student::insert()
@@ -217,6 +218,63 @@ void student::search(){
     }
 }
 
+void student::deleteData(){
+    system("cls");
+    fstream file, file1;
+    int found = 0;
+    cout << endl;
+    cout << "\t\t-------------------------------------\n";
+    cout << "\t\t|---     Student Data Delete     ---|\n";
+    cout << "\t\t-------------------------------------\n";
+
+    file.open("studentdata.txt", ios::in);
+
+    if(!file){
+        cout<<"\n\t\tNo data found...\n";
+    }else{
+        string roll_select;
+
+            
+        cout << endl;   
+        cout << "\t\t-------------------------------------\n";
+        cout << "\t\t|---     Student Data Delete     ---|\n";
+        cout << "\t\t-------------------------------------\n";
+
+        cout<<"\t\tEnter Student Roll no. to search: ";
+        cin>>roll_select;
+
+        file1.open("data.txt", ios::app | ios::out);
+
+        file >> name >> roll >> course >> email >> contact >> address;
+
+        while(!file.eof()){
+            if(roll != roll_select){
+                file1 << " " << name << " " << roll << " " << course << " " << email << " " << contact << " " << address << endl;
+            }
+
+            file >> name >> roll >> course >> email >> contact >> address;
+        }
+        cout << "\n\n\t\t|---     Student Data Deleting   ---|\n";
+        cout << "\t\tStudent Name: " << name << endl;
+        cout << "\t\tStudent Roll: " << roll << endl;
+        cout << "\t\tStudent Course: " << course << endl;
+        cout << "\t\tStudent Email: " << email << endl;
+        cout << "\t\tStudent Contact: " << contact << endl;
+        cout << "\t\tStudent Address: " << address << endl;
+        cout<<"\n\n\t\t### Data deleted ###\n\n";
+
+        if(found == 0){
+            cout<<"\n\t\tNo data avaiable with roll: "<<roll_select<<endl;
+        }
+
+        file.close();
+        file1.close();
+        remove("studentdata.txt");
+        rename("data.txt", "studentdata.txt");
+    }
+    
+}
+
 void student::menu()
 {
 
@@ -264,7 +322,7 @@ menustart:
         search();
         break;
     case 5:
-        // display();
+        deleteData();
         break;
 
     case 6:
